@@ -1,8 +1,7 @@
 package main
 
 const (
-
-	polkadotbeatConfigTpl = `polkadotbeat:
+    polkadotbeatConfigTpl = `polkadotbeat:
     period: 30s
     polkadot_host: "{{ .ContainerName "polkadot" }}"
     polkadot_port: "9933"
@@ -16,6 +15,7 @@ fields:
         network_xid: {{ .BlockchainGID }}
         user_id: TODO
         environment: {{ .Environment }}
+fields_under_root: true
 output:
     logstash:
         hosts:
@@ -27,7 +27,7 @@ output:
             key: /etc/ssl/beats/beat.key
 `
 
-	filebeatConfigTpl = `filebeat.inputs:
+    filebeatConfigTpl = `filebeat.inputs:
 - type: docker
   containers.ids: 
   - '*'
@@ -57,6 +57,4 @@ output:
             - /etc/ssl/beats/ca.crt
             key: /etc/ssl/beats/beat.key
 `
-
 )
-
