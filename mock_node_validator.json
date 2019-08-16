@@ -1,0 +1,18 @@
+{
+	"node_gid": "<mock-gid>",
+	"blockchain_gid": "blockchain-id",
+	"environment": "alexander",
+	"network_type": "public",
+	"node_subtype": "validator",
+	"protocol_type": "polkadot",
+	"logstash": {
+		"host": "",
+        "certificate": "~/.blockdaemon/beats/beat.crt",
+        "certificate_authorities": "~/.blockdaemon/beats/ca.crt",
+		"key": "~/.blockdaemon/beats/beat.key"
+	},
+	"config": { 
+		"name": "node-name",
+		"key": "seed1 seed2 seed3"
+	}
+}
