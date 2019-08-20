@@ -1,11 +1,12 @@
-# github.com/Blockdaemon/bpm-sdk v0.0.0-20190816185528-f26c46e80762
+# github.com/Blockdaemon/bpm-sdk v0.0.0-20190820202835-6ffd0fd062ba
 github.com/Blockdaemon/bpm-sdk/pkg/docker
 github.com/Blockdaemon/bpm-sdk/pkg/node
 github.com/Blockdaemon/bpm-sdk/pkg/plugin
 github.com/Blockdaemon/bpm-sdk/pkg/template
 github.com/Blockdaemon/bpm-sdk/internal/util
-# github.com/Microsoft/go-winio v0.4.12
+# github.com/Microsoft/go-winio v0.4.14
 github.com/Microsoft/go-winio
+github.com/Microsoft/go-winio/pkg/guid
 # github.com/docker/distribution v2.7.1+incompatible
 github.com/docker/distribution/reference
 github.com/docker/distribution/digestset
@@ -51,5 +52,5 @@ golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
 golang.org/x/net/proxy
 golang.org/x/net/internal/socks
-# golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a
+# golang.org/x/sys v0.0.0-20190507160741-ecd444e8653b
 golang.org/x/sys/windows
