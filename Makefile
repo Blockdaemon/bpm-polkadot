@@ -1,5 +1,3 @@
-export GO111MODULE=on
-
 # Vendoring is a bit controversial. I'm doing it for these reasons:
 #
 # - Being able to build without internet
