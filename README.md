@@ -18,7 +18,7 @@ Once built, the plugin can be used directly by calling ./binaries/skeleton-<vers
 
 To use the plugin directly:
 
-1. Build the binary or download a pre-build binary from https://runner-test.sfo2.digitaloceanspaces.com/polkadot-0.2.0-linux-amd64
+1. Build the binary or download a pre-build binary from https://runner-test.sfo2.digitaloceanspaces.com/polkadot-0.4.0-linux-amd64
 2. Create the node directory: `mkdir -p ~/.blockdaemon/nodes/polkadot-ms2/`
 3. Copy the node configuration file: `cp node.json.example ~/.blockdaemon/nodes/polkadot-ms2/node.json`
 4. Copy the certificates and keys directory: `cp -r beats ~/.blockdaemon/beats`
