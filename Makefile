@@ -15,7 +15,7 @@ export GOFLAGS=-mod=vendor
 
 NAME:=polkadot
 
-VERSION:=0.4.1
+VERSION:=$(CI_COMMIT_REF_NAME)
 
 ifeq ($(VERSION),)
 	# Looks like we are not running in the CI so default to current branch

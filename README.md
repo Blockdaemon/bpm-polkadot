@@ -12,7 +12,7 @@ It currently supports:
 Just run make which will automatically create versioned binaries for Linux and OSX
 Usage
 
-Once built, the plugin can be used directly by calling ./binaries/skeleton-<version>-<os>-amd64 or, once the plugin repository is implemented it can be uploaded to the repository and used with bpm.
+Once built, the plugin can be used directly by calling ./binaries/skeleton-[version]-[os]-amd64 or, once the plugin repository is implemented it can be uploaded to the repository and used with bpm.
 
 # How to run it
 
@@ -20,7 +20,7 @@ To use the plugin directly:
 
 1. Build the binary or download a pre-build binary from https://runner-test.sfo2.digitaloceanspaces.com/polkadot-0.4.1-linux-amd64
 2. Create the node directory: `mkdir -p ~/.blockdaemon/nodes/polkadot-ms2/`
-3. Copy the node configuration file: `cp node.json.example ~/.blockdaemon/nodes/polkadot-ms2/node.json`
+3. Copy the node configuration file: `cp node_example.json ~/.blockdaemon/nodes/polkadot-ms2/node.json`
 4. Copy the certificates and keys directory: `cp -r beats ~/.blockdaemon/beats`
 5. Run through the plugin lifecycle:
 
