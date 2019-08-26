@@ -7,7 +7,7 @@ const (
     polkadot_port: "9933"
 fields:
     info:
-        info.launch_type: bpm
+        launch_type: bpm
         node_xid: {{ .NodeGID }}
         project: development
         protocol_type: POLKADOT
@@ -39,7 +39,7 @@ filebeat.config:
 
 fields:
     info:
-        info.launch_type: bpm
+        launch_type: bpm
         node_xid: {{ .NodeGID }}
         project: development
         protocol_type: POLKADOT
