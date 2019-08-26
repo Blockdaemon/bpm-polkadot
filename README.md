@@ -9,7 +9,7 @@ It currently supports:
 
 # How to build it
 
-Just run make which will automatically create versioned binaries for Linux and OSX
+Run make which will automatically create versioned binaries for Linux and OSX
 Usage
 
 Once built, the plugin can be used directly by calling `./binaries/skeleton-<version>-<os>-amd64` or, once the plugin repository is implemented it can be uploaded to the repository and used with bpm.
