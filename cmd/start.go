@@ -7,14 +7,14 @@ import (
 
 	"context"
 	"fmt"
-	"time"
 	"path"
+	"time"
 
 	homedir "github.com/mitchellh/go-homedir"
 )
 
 func start(currentNode node.Node) error {
-	cmd := []string{"polkadot", "--rpc-external"}
+	cmd := []string{"polkadot", "-d /data", "--rpc-external", "--ws-external", "--rpc-cors all"}
 
 	name, err := untyped.GetString(currentNode.Config, "name")
 	if err != nil {
@@ -22,13 +22,14 @@ func start(currentNode node.Node) error {
 	}
 	cmd = append(cmd, "--name")
 	cmd = append(cmd, name)
+	var imageTag string
 
-	cmd = append(cmd, "--chain")
 	switch currentNode.Environment {
 	case "kusama":
-		cmd = append(cmd, "kusama")
+		imageTag = polkadotKusamaTag
 	case "alexander":
-		cmd = append(cmd, "alexander")
+		cmd = append(cmd, "--chain alexander")
+		imageTag = pokadotAlexanderTag
 	default:
 		return fmt.Errorf("Unknown environment: %s", currentNode.Environment)
 	}
@@ -63,9 +64,12 @@ func start(currentNode node.Node) error {
 		return err
 	}
 
+	// Alexander and Kusama use different builds.
+	containerToRun := fmt.Sprintf("%s:%s", polkadotContainerName, imageTag)
+
 	// Configure the containers
 	polkadotContainer := docker.Container{
-		Name:      currentNode.ContainerName(polkadotContainerName),
+		Name:      currentNode.ContainerName(containerToRun),
 		Image:     polkadotContainerImage,
 		Cmd:       cmd,
 		NetworkID: currentNode.DockerNetworkName(),
@@ -114,23 +118,23 @@ func start(currentNode node.Node) error {
 		Mounts: []docker.Mount{
 			docker.Mount{
 				Type: "bind",
-				From: path.Join(currentNode.ConfigsDirectory(), polkadotbeatConfigFile), 
-				To: "/usr/share/polkadotbeat/polkadotbeat.yml",
+				From: path.Join(currentNode.ConfigsDirectory(), polkadotbeatConfigFile),
+				To:   "/usr/share/polkadotbeat/polkadotbeat.yml",
 			},
 			docker.Mount{
 				Type: "bind",
 				From: currentNode.Logstash.CertificateAuthorities,
-				To: "/etc/ssl/beats/ca.crt",
+				To:   "/etc/ssl/beats/ca.crt",
 			},
 			docker.Mount{
 				Type: "bind",
 				From: currentNode.Logstash.Certificate,
-				To: "/etc/ssl/beats/beat.crt",
+				To:   "/etc/ssl/beats/beat.crt",
 			},
 			docker.Mount{
 				Type: "bind",
 				From: currentNode.Logstash.Key,
-				To: "/etc/ssl/beats/beat.key",
+				To:   "/etc/ssl/beats/beat.key",
 			},
 		},
 	}
@@ -142,28 +146,28 @@ func start(currentNode node.Node) error {
 		Mounts: []docker.Mount{
 			docker.Mount{
 				Type: "bind",
-				From: path.Join(currentNode.ConfigsDirectory(), filebeatConfigFile), 
-				To: "/usr/share/filebeat/filebeat.yml",
+				From: path.Join(currentNode.ConfigsDirectory(), filebeatConfigFile),
+				To:   "/usr/share/filebeat/filebeat.yml",
 			},
 			docker.Mount{
 				Type: "bind",
 				From: "/var/lib/docker/containers",
-				To: "/var/lib/docker/containers",
+				To:   "/var/lib/docker/containers",
 			},
 			docker.Mount{
 				Type: "bind",
 				From: currentNode.Logstash.CertificateAuthorities,
-				To: "/etc/ssl/beats/ca.crt",
+				To:   "/etc/ssl/beats/ca.crt",
 			},
 			docker.Mount{
 				Type: "bind",
 				From: currentNode.Logstash.Certificate,
-				To: "/etc/ssl/beats/beat.crt",
+				To:   "/etc/ssl/beats/beat.crt",
 			},
 			docker.Mount{
 				Type: "bind",
 				From: currentNode.Logstash.Key,
-				To: "/etc/ssl/beats/beat.key",
+				To:   "/etc/ssl/beats/beat.key",
 			},
 		},
 		User: "root",

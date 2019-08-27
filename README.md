@@ -18,7 +18,7 @@ Once built, the plugin can be used directly by calling `./bin/skeleton-<version>
 
 To use the plugin directly:
 
-1. Build the binary or download a pre-build binary from https://runner-test.sfo2.digitaloceanspaces.com/polkadot-0.4.1-linux-amd64
+1. Build the binary or download a pre-build binary from https://runner-test.sfo2.digitaloceanspaces.com/polkadot-0.5.0-linux-amd64
 2. Create the node directory: `mkdir -p ~/.blockdaemon/nodes/polkadot-ms2/`
 3. Copy the node configuration file: `cp node_example.json ~/.blockdaemon/nodes/polkadot-ms2/node.json`
 4. Copy the certificates and keys directory: `cp -r beats ~/.blockdaemon/beats`
@@ -42,3 +42,8 @@ You should now see a running multiple docker container: `docker ps`
 # Dependencies
 
 * https://github.com/Blockdaemon/polkadotbeat - Contains an elasticbeat that collects blockchain information and sends them to the backend
+
+## Credits
+Thanks to [Chevdor](https://github.com/chevdor) for his great docker container: https://hub.docker.com/r/chevdor/polkadot
+
+ 
