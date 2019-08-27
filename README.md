@@ -25,8 +25,8 @@ To use the plugin directly:
 5. Run through the plugin lifecycle:
 
 ```
-./polkadot-0.2.0-linux-amd64 create-configurations polkadot-ms2
-./polkadot-0.2.0-linux-amd64 start polkadot-ms2
+./polkadot-0.5.0-linux-amd64 create-configurations polkadot-ms2
+./polkadot-0.5.0-linux-amd64 start polkadot-ms2
 ```
 
 This will create the secrets, configuration and finally start the docker container with the blockchain node. 
@@ -36,7 +36,7 @@ You should now see a running multiple docker container: `docker ps`
 # To remove it
 
 ```
-./polkadot-0.2.0-linux-amd64 remove --purge polkadot-ms2
+./polkadot-0.5.0-linux-amd64 remove --purge polkadot-ms2
 ```
 
 # Dependencies

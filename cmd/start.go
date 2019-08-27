@@ -14,7 +14,7 @@ import (
 )
 
 func start(currentNode node.Node) error {
-	cmd := []string{"polkadot", "-d /data", "--rpc-external", "--ws-external", "--rpc-cors all"}
+	cmd := []string{"polkadot", "-d /data", "--rpc-external", "--ws-external"}
 
 	name, err := untyped.GetString(currentNode.Config, "name")
 	if err != nil {
@@ -27,6 +27,7 @@ func start(currentNode node.Node) error {
 	switch currentNode.Environment {
 	case "kusama":
 		imageTag = polkadotKusamaTag
+		cmd = append(cmd, "--rpc-cors all")
 	case "alexander":
 		cmd = append(cmd, "--chain alexander")
 		imageTag = pokadotAlexanderTag
