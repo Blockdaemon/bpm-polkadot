@@ -7,9 +7,7 @@ import (
 var pluginVersion string
 
 const (
-	pokadotAlexanderTag    = "0.4.4"
-	polkadotKusamaTag      = "0.5.1"
-	polkadotContainerImage = "docker.io/chevdor/polkadot"
+	polkadotContainerImage = "docker.io/chevdor/polkadot:0.4.4"
 	polkadotContainerName  = "polkadot"
 	polkadotDataVolumeName = "polkadot-data"
 

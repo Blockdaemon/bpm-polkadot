@@ -14,7 +14,7 @@ import (
 )
 
 func start(currentNode node.Node) error {
-	cmd := []string{"polkadot", "-d /data", "--rpc-external", "--ws-external"}
+	cmd := []string{"polkadot", "-d /data", "--rpc-external"}
 
 	name, err := untyped.GetString(currentNode.Config, "name")
 	if err != nil {
@@ -22,15 +22,13 @@ func start(currentNode node.Node) error {
 	}
 	cmd = append(cmd, "--name")
 	cmd = append(cmd, name)
-	var imageTag string
 
+	cmd = append(cmd, "--chain")
 	switch currentNode.Environment {
 	case "kusama":
-		imageTag = polkadotKusamaTag
-		cmd = append(cmd, "--rpc-cors all")
+		cmd = append(cmd, "kusama")
 	case "alexander":
-		cmd = append(cmd, "--chain alexander")
-		imageTag = pokadotAlexanderTag
+		cmd = append(cmd, "alexander")
 	default:
 		return fmt.Errorf("Unknown environment: %s", currentNode.Environment)
 	}
@@ -65,13 +63,10 @@ func start(currentNode node.Node) error {
 		return err
 	}
 
-	// Alexander and Kusama use different builds.
-	imageToRun := fmt.Sprintf("%s:%s", polkadotContainerImage, imageTag)
-
 	// Configure the containers
 	polkadotContainer := docker.Container{
 		Name:      currentNode.ContainerName(polkadotContainerName),
-		Image:     imageToRun,
+		Image:     polkadotContainerImage,
 		Cmd:       cmd,
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
@@ -92,12 +87,6 @@ func start(currentNode node.Node) error {
 				HostIP:        "127.0.0.1",
 				HostPort:      "9933",
 				ContainerPort: "9933",
-				Protocol:      "tcp",
-			},
-			docker.Port{
-				HostIP:        "127.0.0.1",
-				HostPort:      "9944",
-				ContainerPort: "9944",
 				Protocol:      "tcp",
 			},
 		},
