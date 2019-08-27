@@ -65,12 +65,12 @@ func start(currentNode node.Node) error {
 	}
 
 	// Alexander and Kusama use different builds.
-	containerToRun := fmt.Sprintf("%s:%s", polkadotContainerName, imageTag)
+	imageToRun := fmt.Sprintf("%s:%s", polkadotContainerImage, imageTag)
 
 	// Configure the containers
 	polkadotContainer := docker.Container{
-		Name:      currentNode.ContainerName(containerToRun),
-		Image:     polkadotContainerImage,
+		Name:      currentNode.ContainerName(polkadotContainerName),
+		Image:     imageToRun,
 		Cmd:       cmd,
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
@@ -91,6 +91,12 @@ func start(currentNode node.Node) error {
 				HostIP:        "127.0.0.1",
 				HostPort:      "9933",
 				ContainerPort: "9933",
+				Protocol:      "tcp",
+			},
+			docker.Port{
+				HostIP:        "127.0.0.1",
+				HostPort:      "9944",
+				ContainerPort: "9944",
 				Protocol:      "tcp",
 			},
 		},
