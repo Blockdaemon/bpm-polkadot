@@ -110,6 +110,7 @@ func start(currentNode node.Node) error {
 	polkadotbeatContainer := docker.Container{
 		Name:      currentNode.ContainerName(polkadotbeatContainerName),
 		Image:     polkadotbeatContainerImage,
+		Cmd: 	   []string{"-e", "-strict.perms=false"},
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
 			docker.Mount{
@@ -138,6 +139,7 @@ func start(currentNode node.Node) error {
 	filebeatContainer := docker.Container{
 		Name:      currentNode.ContainerName(filebeatContainerName),
 		Image:     filebeatContainerImage,
+		Cmd: 	   []string{"-e", "-strict.perms=false"},
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
 			docker.Mount{
