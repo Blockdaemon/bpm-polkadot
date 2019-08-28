@@ -26,6 +26,8 @@ or
 1. macOS recent version
 2. Docker for Mac 
 
+Your user must be in the docker group.  
+
 To use the plugin directly:
 
 1. Build the binary or download a pre-build binary from https://runner-test.sfo2.digitaloceanspaces.com/polkadot-0.5.0-linux-amd64
