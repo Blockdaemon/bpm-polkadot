@@ -1,4 +1,0 @@
-- Support polkadot validator (https://wiki.polkadot.network/en/latest/polkadot/node/guides/how-to-validate/)
-- The docker image we are using doesn't look official, is it?
-- Nodestate
-- Create node-key in `create-secrets` and pass it to the docker container
