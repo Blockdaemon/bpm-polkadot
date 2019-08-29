@@ -14,7 +14,7 @@ go1.12+ is required to build.
 Run `make` which will automatically create versioned binaries for Linux and OSX
 Usage.
 
-Once built, the plugin can be used directly by calling `./bin/skeleton-<version>-<os>-amd64` or, once the plugin repository is implemented it can be uploaded to the repository and used with bpm.
+Once built, the plugin can be used directly by calling `./bin/polkadot-<version>-<os>-amd64` or, once the plugin repository is implemented it can be uploaded to the repository and used with bpm.
 
 # How to run it
 
