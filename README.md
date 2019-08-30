@@ -9,7 +9,7 @@ It currently supports:
 
 # How to build it
 
-go1.12+ is required to build.
+- Go 1.12+ is required to build.
 
 Run `make` which will automatically create versioned binaries for Linux and OSX
 Usage.
@@ -47,8 +47,9 @@ You should now see a running multiple docker container: `docker ps`
 
 # To remove it
 
+Note: If you use the --purge flag your configuration files will alse be remove, if you want to keep your configuration files omit this flag.
 ```
-./polkadot-0.5.0-linux-amd64 remove --purge polkadot-ms2
+./polkadot-0.5.0-linux-amd64 remove polkadot-ms2 --purge
 ```
 
 # Dependencies
