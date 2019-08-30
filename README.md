@@ -47,7 +47,7 @@ You should now see a running multiple docker container: `docker ps`
 
 # To remove it
 
-Note: If you use the --purge flag your configuration files will alse be remove, if you want to keep your configuration files omit this flag.
+Note: If you use the purge flag your configuration files will alse be removed, if you want to keep your configuration files omit this flag.
 ```
 ./polkadot-0.5.0-linux-amd64 remove polkadot-ms2 --purge
 ```
