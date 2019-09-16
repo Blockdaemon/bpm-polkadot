@@ -58,4 +58,20 @@ output:
             - /etc/ssl/beats/ca.crt
             key: /etc/ssl/beats/beat.key
 `
+
+    polkadotCmdTpl = `polkadot
+--base-path
+/data
+--rpc-external
+--name
+{{ .Config.name }}
+--chain
+{{ .Environment }}
+{{ if eq .NodeSubtype "validator" }}
+--validator
+--key
+{{ .Config.key }}
+{{ end }}
+`
+
 )

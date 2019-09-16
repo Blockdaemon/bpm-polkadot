@@ -3,14 +3,14 @@ package template
 
 import (
 	"bytes"
-	"text/template"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
+	"text/template"
 
-	"github.com/Blockdaemon/bpm-sdk/pkg/node"
 	"github.com/Blockdaemon/bpm-sdk/internal/util"
+	"github.com/Blockdaemon/bpm-sdk/pkg/node"
 )
 
 // ConfigFileRendered renders a template with node confguration and writes it to disk if it doesn't exist yet
@@ -55,12 +55,24 @@ func ConfigFileRendered(filename, templateContent string, node node.Node) error 
 		return err
 	}
 
-
 	if err := ioutil.WriteFile(outputFilename, output.Bytes(), 0644); err != nil {
 		return err
 	}
 
 	return nil
+}
+// ConfigFilesRendered renderes multiple templates to files
+//
+// Usage:
+func ConfigFilesRendered(filenamesAndTemplates map[string]string, node node.Node) error {
+	for filename, template := range filenamesAndTemplates {
+	    if err := ConfigFileRendered(filename, template, node); err != nil {
+	    	return err
+	    }
+
+	}
+
+    return nil
 }
 
 // ConfigFileAbsent deletes a file if it exists
@@ -80,4 +92,3 @@ func ConfigFileAbsent(filename string, node node.Node) error {
 	fmt.Printf("Removing file '%s'\n", filePath)
 	return os.Remove(filePath)
 }
-

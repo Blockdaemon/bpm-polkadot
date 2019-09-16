@@ -1,4 +1,4 @@
-# github.com/Blockdaemon/bpm-sdk v0.0.0-20190820202835-6ffd0fd062ba
+# github.com/Blockdaemon/bpm-sdk v0.0.0-20190820202835-6ffd0fd062ba => ../bpm-sdk
 github.com/Blockdaemon/bpm-sdk/pkg/docker
 github.com/Blockdaemon/bpm-sdk/pkg/node
 github.com/Blockdaemon/bpm-sdk/pkg/plugin
@@ -45,8 +45,6 @@ github.com/pkg/errors
 github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.3
 github.com/spf13/pflag
-# gitlab.com/Blockdaemon/untyped v0.0.0-20190801104728-0876c5453cbe
-gitlab.com/Blockdaemon/untyped
 # golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
