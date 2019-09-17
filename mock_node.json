@@ -12,6 +12,8 @@
 		"key": "~/.blockdaemon/beats/beat.key"
 	},
 	"config": { 
-		"name": "node-name"
+		"name": "node-name",
+		"in-peers": 100,
+		"out-peers": 100,
 	}
 }

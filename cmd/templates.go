@@ -70,7 +70,12 @@ output:
 {{ if eq .NodeSubtype "validator" }}
 --validator
 --key
-{{ .Config.key }}
+{{ end }}
+{{ if .Config.in-peers }}
+--in-peers {{ .Config.in-peers }}
+{{ end }}
+{{ if .Config.out-peers }}
+--out-peers {{ .Config.out-peers }}
 {{ end }}
 `
 
