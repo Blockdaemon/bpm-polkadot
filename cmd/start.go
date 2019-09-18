@@ -33,7 +33,7 @@ func start(currentNode node.Node) error {
 		return fmt.Errorf("Unknown environment: %s", currentNode.Environment)
 	}
 
-	switch currentNode.NodeSubtype {
+	switch currentNode.Subtype {
 	case "validator":
 		cmd = append(cmd, "--validator")
 		cmd = append(cmd, "--key")
@@ -93,15 +93,15 @@ func start(currentNode node.Node) error {
 	}
 
 	// TODO: This is just temporarily until we have a proper authentication system we stick the certs in ~/.blockdaemon
-	currentNode.Logstash.Key, err = homedir.Expand(currentNode.Logstash.Key)
+	currentNode.Collection.Key, err = homedir.Expand(currentNode.Collection.Key)
 	if err != nil {
 		return err
 	}
-	currentNode.Logstash.Certificate, err = homedir.Expand(currentNode.Logstash.Certificate)
+	currentNode.Collection.Cert, err = homedir.Expand(currentNode.Collection.Cert)
 	if err != nil {
 		return err
 	}
-	currentNode.Logstash.CertificateAuthorities, err = homedir.Expand(currentNode.Logstash.CertificateAuthorities)
+	currentNode.Collection.CA, err = homedir.Expand(currentNode.Collection.CA)
 	if err != nil {
 		return err
 	}
@@ -110,7 +110,7 @@ func start(currentNode node.Node) error {
 	polkadotbeatContainer := docker.Container{
 		Name:      currentNode.ContainerName(polkadotbeatContainerName),
 		Image:     polkadotbeatContainerImage,
-		Cmd: 	   []string{"-e", "-strict.perms=false"},
+		Cmd:       []string{"-e", "-strict.perms=false"},
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
 			docker.Mount{
@@ -120,17 +120,17 @@ func start(currentNode node.Node) error {
 			},
 			docker.Mount{
 				Type: "bind",
-				From: currentNode.Logstash.CertificateAuthorities,
+				From: currentNode.Collection.CA,
 				To:   "/etc/ssl/beats/ca.crt",
 			},
 			docker.Mount{
 				Type: "bind",
-				From: currentNode.Logstash.Certificate,
+				From: currentNode.Collection.Cert,
 				To:   "/etc/ssl/beats/beat.crt",
 			},
 			docker.Mount{
 				Type: "bind",
-				From: currentNode.Logstash.Key,
+				From: currentNode.Collection.Key,
 				To:   "/etc/ssl/beats/beat.key",
 			},
 		},
@@ -139,7 +139,7 @@ func start(currentNode node.Node) error {
 	filebeatContainer := docker.Container{
 		Name:      currentNode.ContainerName(filebeatContainerName),
 		Image:     filebeatContainerImage,
-		Cmd: 	   []string{"-e", "-strict.perms=false"},
+		Cmd:       []string{"-e", "-strict.perms=false"},
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
 			docker.Mount{
@@ -154,17 +154,17 @@ func start(currentNode node.Node) error {
 			},
 			docker.Mount{
 				Type: "bind",
-				From: currentNode.Logstash.CertificateAuthorities,
+				From: currentNode.Collection.CA,
 				To:   "/etc/ssl/beats/ca.crt",
 			},
 			docker.Mount{
 				Type: "bind",
-				From: currentNode.Logstash.Certificate,
+				From: currentNode.Collection.Cert,
 				To:   "/etc/ssl/beats/beat.crt",
 			},
 			docker.Mount{
 				Type: "bind",
-				From: currentNode.Logstash.Key,
+				From: currentNode.Collection.Key,
 				To:   "/etc/ssl/beats/beat.key",
 			},
 		},
