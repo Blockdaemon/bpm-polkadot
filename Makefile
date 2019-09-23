@@ -12,7 +12,6 @@
 #
 # (https://www.theregister.co.uk/2017/02/26/git_fscked_by_sha1_collision_not_so_fast_says_linus_torvalds/)
 export GOFLAGS=-mod=vendor
-
 NAME:=polkadot
 
 VERSION:=$(CI_COMMIT_REF_NAME)
@@ -23,7 +22,7 @@ ifeq ($(VERSION),)
 endif
 
 # Need to wrap in "bash -c" so env vars work in the compiler as well as on the cli to specify the output
-BUILD_CMD:=bash -c 'go build -ldflags "-X main.pluginVersion=$(VERSION)" -o bin/$(NAME)-$(VERSION)-$$GOOS-$$GOARCH cmd/*'
+BUILD_CMD:=bash -c 'go build -ldflags "-X main.version=$(VERSION)" -o bin/$(NAME)-$(VERSION)-$$GOOS-$$GOARCH cmd/*'
 
 .PHONY: build
 build:

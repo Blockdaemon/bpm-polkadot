@@ -59,5 +59,3 @@ Note: If you use the purge flag your configuration files will also be removed, i
 
 ## Credits
 Thanks to [Chevdor](https://github.com/chevdor) for his great docker container: https://hub.docker.com/r/chevdor/polkadot
-
- 

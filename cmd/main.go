@@ -4,12 +4,13 @@ import (
 	"github.com/Blockdaemon/bpm-sdk/pkg/plugin"
 )
 
-var pluginVersion string
+var version string
 
 const (
 	polkadotContainerImage = "docker.io/chevdor/polkadot:0.4.4"
 	polkadotContainerName  = "polkadot"
 	polkadotDataVolumeName = "polkadot-data"
+	polkadotCmdFile        = "polkadot.dockercmd"
 
 	polkadotbeatContainerImage = "docker.io/blockdaemon/polkadotbeat:1.0.0"
 	polkadotbeatContainerName  = "polkadotbeat"
@@ -24,11 +25,12 @@ func main() {
 	plugin.Initialize(plugin.Plugin{
 		Name:          "polkadot",
 		Description:   "A polkadot plugin",
-		Version:       pluginVersion,
+		Version:       version,
 		CreateSecrets: plugin.DefaultCreateSecrets,
 		CreateConfigs: createConfigs,
 		Start:         start,
-		Remove:        plugin.DefaultRemove,
+		Status:        status,
+		Stop:          plugin.DefaultStop,
 		Upgrade:       plugin.DefaultUpgrade,
 	})
 }
