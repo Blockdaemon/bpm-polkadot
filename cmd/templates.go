@@ -55,7 +55,7 @@ output:
             key: /etc/ssl/beats/beat.key
 `
 
-    polkadotCmdTpl = `polkadot
+	polkadotCmdTpl = `polkadot
 --base-path
 /data
 --rpc-external
@@ -77,5 +77,4 @@ output:
 {{ .Config.out_peers }}
 {{ end }}
 `
-
 )

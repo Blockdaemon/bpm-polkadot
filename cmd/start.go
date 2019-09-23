@@ -33,20 +33,20 @@ func start(currentNode node.Node) error {
 		CmdFile:   path.Join(currentNode.ConfigsDirectory(), polkadotCmdFile),
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
-			docker.Mount{
+			{
 				Type: "volume",
 				From: currentNode.VolumeName(polkadotDataVolumeName),
 				To:   "/data",
 			},
 		},
 		Ports: []docker.Port{
-			docker.Port{
+			{
 				HostIP:        "0.0.0.0",
 				HostPort:      "30333",
 				ContainerPort: "30333",
 				Protocol:      "tcp",
 			},
-			docker.Port{
+			{
 				HostIP:        "127.0.0.1",
 				HostPort:      "9933",
 				ContainerPort: "9933",
@@ -76,22 +76,22 @@ func start(currentNode node.Node) error {
 		Cmd:       []string{"-e", "-strict.perms=false"},
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
-			docker.Mount{
+			{
 				Type: "bind",
 				From: path.Join(currentNode.ConfigsDirectory(), polkadotbeatConfigFile),
 				To:   "/usr/share/polkadotbeat/polkadotbeat.yml",
 			},
-			docker.Mount{
+			{
 				Type: "bind",
 				From: currentNode.Collection.CA,
 				To:   "/etc/ssl/beats/ca.crt",
 			},
-			docker.Mount{
+			{
 				Type: "bind",
 				From: currentNode.Collection.Cert,
 				To:   "/etc/ssl/beats/beat.crt",
 			},
-			docker.Mount{
+			{
 				Type: "bind",
 				From: currentNode.Collection.Key,
 				To:   "/etc/ssl/beats/beat.key",
@@ -105,27 +105,27 @@ func start(currentNode node.Node) error {
 		Cmd:       []string{"-e", "-strict.perms=false"},
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
-			docker.Mount{
+			{
 				Type: "bind",
 				From: path.Join(currentNode.ConfigsDirectory(), filebeatConfigFile),
 				To:   "/usr/share/filebeat/filebeat.yml",
 			},
-			docker.Mount{
+			{
 				Type: "bind",
 				From: "/var/lib/docker/containers",
 				To:   "/var/lib/docker/containers",
 			},
-			docker.Mount{
+			{
 				Type: "bind",
 				From: currentNode.Collection.CA,
 				To:   "/etc/ssl/beats/ca.crt",
 			},
-			docker.Mount{
+			{
 				Type: "bind",
 				From: currentNode.Collection.Cert,
 				To:   "/etc/ssl/beats/beat.crt",
 			},
-			docker.Mount{
+			{
 				Type: "bind",
 				From: currentNode.Collection.Key,
 				To:   "/etc/ssl/beats/beat.key",
