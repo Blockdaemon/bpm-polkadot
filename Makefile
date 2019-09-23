@@ -11,6 +11,7 @@
 #                 and using one for generating a 'content identifier' for a content-addressable system like git.
 #
 # (https://www.theregister.co.uk/2017/02/26/git_fscked_by_sha1_collision_not_so_fast_says_linus_torvalds/)
+export GOFLAGS=-mod=vendor
 NAME:=polkadot
 
 VERSION:=$(CI_COMMIT_REF_NAME)
