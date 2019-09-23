@@ -29,6 +29,7 @@ func main() {
 		CreateSecrets: plugin.DefaultCreateSecrets,
 		CreateConfigs: createConfigs,
 		Start:         start,
+		Status:        status,
 		Stop:          plugin.DefaultStop,
 		Upgrade:       plugin.DefaultUpgrade,
 	})

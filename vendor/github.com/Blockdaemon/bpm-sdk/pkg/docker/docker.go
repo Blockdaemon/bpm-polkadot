@@ -87,7 +87,7 @@ func (bm *BasicManager) ListVolumeIDs(ctx context.Context) ([]string, error) {
 
 // ContainerAbset stops and removes a container if it is running/exists
 func (bm *BasicManager) ContainerAbsent(ctx context.Context, containerName string) error {
-	running, err := bm.isContainerRunning(ctx, containerName)
+	running, err := bm.IsContainerRunning(ctx, containerName)
 	if err != nil {
 		return err
 	}
@@ -219,7 +219,7 @@ func (bm *BasicManager) ContainerRuns(ctx context.Context, container Container) 
 		fmt.Printf("Container '%s' already exists, skipping creation\n", container.Name)
 	}
 
-	running, err := bm.isContainerRunning(ctx, container.Name)
+	running, err := bm.IsContainerRunning(ctx, container.Name)
 	if err != nil {
 		return err
 	}
@@ -275,7 +275,7 @@ func (bm *BasicManager) doesVolumeExist(ctx context.Context, volumeID string) (b
 	return true, nil
 }
 
-func (bm *BasicManager) isContainerRunning(ctx context.Context, containerName string) (bool, error) {
+func (bm *BasicManager) IsContainerRunning(ctx context.Context, containerName string) (bool, error) {
 	inspect, err := bm.cli.ContainerInspect(ctx, containerName)
 	if err != nil {
 		if client.IsErrContainerNotFound(err) {
@@ -379,15 +379,13 @@ func (bm *BasicManager) createContainer(ctx context.Context, container Container
 				cmd = append(cmd, strings.TrimSpace(parameter))
 			}
 		}
-	} else {
-		return fmt.Errorf("need either `Cmd` or `CmdFile`")
-	}
+	} 
 
 	// Container config
 	containerCfg := &dockercontainer.Config{
 		Image: container.Image,
 		Env:   envs,
-		Cmd:   container.Cmd,
+		Cmd:   cmd,
 		User:  container.User,
 	}
 
