@@ -8,18 +8,17 @@ const (
 fields:
     info:
         launch_type: bpm
-        node_xid: {{ .NodeGID }}
+        node_xid: {{ .ID }}
         project: development
         protocol_type: POLKADOT
         network_type: public
-        network_xid: {{ .BlockchainGID }}
         user_id: TODO
         environment: {{ .Environment }}
 fields_under_root: true
 output:
     logstash:
         hosts:
-        - "{{ .Logstash.Host }}"
+        - "{{ .Collection.Host }}"
         ssl:
             certificate: /etc/ssl/beats/beat.crt
             certificate_authorities:
@@ -40,18 +39,17 @@ filebeat.config:
 fields:
     info:
         launch_type: bpm
-        node_xid: {{ .NodeGID }}
+        node_xid: {{ .ID }}
         project: development
         protocol_type: POLKADOT
         network_type: public
-        network_xid: {{ .BlockchainGID }}
         user_id: TODO
         environment: {{ .Environment }}
 fields_under_root: true
 output:
     logstash:
         hosts:
-        - "{{ .Logstash.Host }}"
+        - "{{ .Collection.Host }}"
         ssl:
             certificate: /etc/ssl/beats/beat.crt
             certificate_authorities:
@@ -67,15 +65,18 @@ output:
 {{ .Config.name }}
 --chain
 {{ .Environment }}
-{{ if eq .NodeSubtype "validator" }}
+{{ if eq .Subtype "validator" }}
 --validator
 --key
+{{ .Config.key }}
 {{ end }}
-{{ if .Config.in-peers }}
---in-peers {{ .Config.in-peers }}
+{{ if .Config.in_peers }}
+--in-peers
+{{ .Config.in_peers }}
 {{ end }}
-{{ if .Config.out-peers }}
---out-peers {{ .Config.out-peers }}
+{{ if .Config.out_peers }}
+--out-peers
+{{ .Config.out_peers }}
 {{ end }}
 `
 

@@ -10,7 +10,7 @@ const (
 	polkadotContainerImage = "docker.io/chevdor/polkadot:0.4.4"
 	polkadotContainerName  = "polkadot"
 	polkadotDataVolumeName = "polkadot-data"
-	polkadotCmdFile     = "polkadot.dockercmd"
+	polkadotCmdFile        = "polkadot.dockercmd"
 
 	polkadotbeatContainerImage = "docker.io/blockdaemon/polkadotbeat:1.0.0"
 	polkadotbeatContainerName  = "polkadotbeat"
@@ -29,7 +29,7 @@ func main() {
 		CreateSecrets: plugin.DefaultCreateSecrets,
 		CreateConfigs: createConfigs,
 		Start:         start,
-		Remove:        plugin.DefaultRemove,
+		Stop:          plugin.DefaultStop,
 		Upgrade:       plugin.DefaultUpgrade,
 	})
 }
