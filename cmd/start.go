@@ -3,10 +3,8 @@ package main
 import (
 	"github.com/Blockdaemon/bpm-sdk/pkg/docker"
 	"github.com/Blockdaemon/bpm-sdk/pkg/node"
-	"gitlab.com/Blockdaemon/untyped"
 
 	"context"
-	"fmt"
 	"path"
 	"time"
 
@@ -14,41 +12,6 @@ import (
 )
 
 func start(currentNode node.Node) error {
-	cmd := []string{"polkadot", "-d /data", "--rpc-external"}
-
-	name, err := untyped.GetString(currentNode.Config, "name")
-	if err != nil {
-		return err
-	}
-	cmd = append(cmd, "--name")
-	cmd = append(cmd, name)
-
-	cmd = append(cmd, "--chain")
-	switch currentNode.Environment {
-	case "kusama":
-		cmd = append(cmd, "kusama")
-	case "alexander":
-		cmd = append(cmd, "alexander")
-	default:
-		return fmt.Errorf("Unknown environment: %s", currentNode.Environment)
-	}
-
-	switch currentNode.Subtype {
-	case "validator":
-		cmd = append(cmd, "--validator")
-		cmd = append(cmd, "--key")
-
-		key, err := untyped.GetString(currentNode.Config, "key")
-		if err != nil {
-			return err
-		}
-		cmd = append(cmd, key)
-	case "watcher":
-		break
-	default:
-		return fmt.Errorf("Unknown environment: %s", currentNode.Environment)
-	}
-
 	client, err := docker.NewBasicManager()
 	if err != nil {
 		return err
@@ -67,7 +30,7 @@ func start(currentNode node.Node) error {
 	polkadotContainer := docker.Container{
 		Name:      currentNode.ContainerName(polkadotContainerName),
 		Image:     polkadotContainerImage,
-		Cmd:       cmd,
+		CmdFile:   path.Join(currentNode.ConfigsDirectory(), polkadotCmdFile),
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
 			docker.Mount{
