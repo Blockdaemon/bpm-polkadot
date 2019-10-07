@@ -19,12 +19,12 @@ brew install wget
 Please see the official [wget homepage](https://www.gnu.org/software/wget/) for further details.
 
 ```bash
-wget <BPM_URL>
-sudo cp bpm-<VERSION>-<OS>-amd64 /usr/local/bin/bpm
+wget <BPM_URL>/bpm-0.5.0-<OS>-amd64
+sudo cp bpm-0.5.0-<OS>-amd64 /usr/local/bin/bpm
 sudo chmod 755 /usr/local/bin/bpm
 ```
 
-Replace `<VERSION>` with the actual version of BPM (e.g. `0.2.0`) and `<OS>` with either `linux` or `darwin`.
+Replace `<OS>` with either `linux` or `darwin`. Note that the version can change, currently we are running `0.5.0`.
 
 ## Usage
 
