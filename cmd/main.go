@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Blockdaemon/bpm-sdk/pkg/plugin"
 	"github.com/Blockdaemon/bpm-sdk/pkg/docker"
+	"github.com/Blockdaemon/bpm-sdk/pkg/plugin"
 )
 
 var version string
@@ -22,7 +22,6 @@ const (
 	filebeatConfigFile     = "filebeat.yml"
 
 	networkName = "polkadot"
-
 )
 
 func main() {
@@ -89,9 +88,9 @@ func main() {
 		version,
 		[]docker.Container{polkadotContainer, polkadotbeatContainer, filebeatContainer},
 		map[string]string{
-			polkadotCmdFile: polkadotCmdTpl,
+			polkadotCmdFile:        polkadotCmdTpl,
 			polkadotbeatConfigFile: polkadotbeatConfigTpl,
-			filebeatConfigFile: filebeatConfigTpl,
+			filebeatConfigFile:     filebeatConfigTpl,
 		},
 	))
 }
