@@ -12,7 +12,7 @@ import (
 )
 
 func start(currentNode node.Node) error {
-	client, err := docker.NewBasicManager()
+	client, err := docker.NewBasicManager(currentNode.DockerPrefix())
 	if err != nil {
 		return err
 	}
@@ -28,14 +28,14 @@ func start(currentNode node.Node) error {
 
 	// Configure the containers
 	polkadotContainer := docker.Container{
-		Name:      currentNode.ContainerName(polkadotContainerName),
+		Name:      polkadotContainerName,
 		Image:     polkadotContainerImage,
 		CmdFile:   path.Join(currentNode.ConfigsDirectory(), polkadotCmdFile),
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
 			{
 				Type: "volume",
-				From: currentNode.VolumeName(polkadotDataVolumeName),
+				From: polkadotDataVolumeName,
 				To:   "/data",
 			},
 		},
@@ -71,7 +71,7 @@ func start(currentNode node.Node) error {
 	// TODO end
 
 	polkadotbeatContainer := docker.Container{
-		Name:      currentNode.ContainerName(polkadotbeatContainerName),
+		Name:      polkadotbeatContainerName,
 		Image:     polkadotbeatContainerImage,
 		Cmd:       []string{"-e", "-strict.perms=false"},
 		NetworkID: currentNode.DockerNetworkName(),
@@ -100,7 +100,7 @@ func start(currentNode node.Node) error {
 	}
 
 	filebeatContainer := docker.Container{
-		Name:      currentNode.ContainerName(filebeatContainerName),
+		Name:      filebeatContainerName,
 		Image:     filebeatContainerImage,
 		Cmd:       []string{"-e", "-strict.perms=false"},
 		NetworkID: currentNode.DockerNetworkName(),

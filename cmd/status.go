@@ -9,7 +9,7 @@ import (
 )
 
 func status(currentNode node.Node) (string, error) {
-	client, err := docker.NewBasicManager()
+	client, err := docker.NewBasicManager(currentNode.DockerPrefix())
 	if err != nil {
 		return "", err
 	}
@@ -17,15 +17,15 @@ func status(currentNode node.Node) (string, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 
-	polkadotContainerRunning, err := client.IsContainerRunning(ctx, currentNode.ContainerName(polkadotContainerName))
+	polkadotContainerRunning, err := client.IsContainerRunning(ctx, polkadotContainerName)
 	if err != nil {
 		return "", err
 	}
-	polkadotbeatContainerRunning, err := client.IsContainerRunning(ctx, currentNode.ContainerName(polkadotbeatContainerName))
+	polkadotbeatContainerRunning, err := client.IsContainerRunning(ctx, polkadotbeatContainerName)
 	if err != nil {
 		return "", err
 	}
-	filebeatCotainerRunning, err := client.IsContainerRunning(ctx, currentNode.ContainerName(filebeatContainerName))
+	filebeatCotainerRunning, err := client.IsContainerRunning(ctx, filebeatContainerName)
 	if err != nil {
 		return "", err
 	}

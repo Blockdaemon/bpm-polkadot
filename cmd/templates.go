@@ -3,7 +3,7 @@ package main
 const (
 	polkadotbeatConfigTpl = `polkadotbeat:
     period: 30s
-    polkadot_host: "{{ .ContainerName "polkadot" }}"
+    polkadot_host: "{{ .DockerPrefix }}polkadot"
     polkadot_port: "9933"
 fields:
     info:
