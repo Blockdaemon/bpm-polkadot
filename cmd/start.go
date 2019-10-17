@@ -12,7 +12,7 @@ import (
 )
 
 func start(currentNode node.Node) error {
-	client, err := docker.NewBasicManager(currentNode.DockerPrefix())
+	client, err := docker.NewBasicManager(currentNode.DockerPrefix(), currentNode.ConfigsDirectory())
 	if err != nil {
 		return err
 	}
@@ -30,7 +30,7 @@ func start(currentNode node.Node) error {
 	polkadotContainer := docker.Container{
 		Name:      polkadotContainerName,
 		Image:     polkadotContainerImage,
-		CmdFile:   path.Join(currentNode.ConfigsDirectory(), polkadotCmdFile),
+		CmdFile:   polkadotCmdFile,
 		NetworkID: currentNode.DockerNetworkName(),
 		Mounts: []docker.Mount{
 			{
@@ -107,7 +107,7 @@ func start(currentNode node.Node) error {
 		Mounts: []docker.Mount{
 			{
 				Type: "bind",
-				From: path.Join(currentNode.ConfigsDirectory(), filebeatConfigFile),
+				From: filebeatConfigFile,
 				To:   "/usr/share/filebeat/filebeat.yml",
 			},
 			{

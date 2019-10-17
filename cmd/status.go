@@ -9,7 +9,7 @@ import (
 )
 
 func status(currentNode node.Node) (string, error) {
-	client, err := docker.NewBasicManager(currentNode.DockerPrefix())
+	client, err := docker.NewBasicManager(currentNode.DockerPrefix(), currentNode.ConfigsDirectory())
 	if err != nil {
 		return "", err
 	}
