@@ -3,22 +3,22 @@ package main
 const (
 	polkadotbeatConfigTpl = `polkadotbeat:
     period: 30s
-    polkadot_host: "{{ .NamePrefix }}polkadot"
+    polkadot_host: "{{ .Node.NamePrefix }}polkadot"
     polkadot_port: "9933"
 fields:
     info:
         launch_type: bpm
-        node_xid: {{ .ID }}
+        node_xid: {{ .Node.ID }}
         project: development
         protocol_type: POLKADOT
         network_type: public
         user_id: TODO
-        environment: {{ .Environment }}
+        environment: {{ .Node.Environment }}
 fields_under_root: true
 output:
     logstash:
         hosts:
-        - "{{ .Collection.Host }}"
+        - "{{ .Node.Collection.Host }}"
         ssl:
             certificate: /etc/ssl/beats/beat.crt
             certificate_authorities:
@@ -31,21 +31,21 @@ output:
 /data
 --rpc-external
 --name
-{{ .Config.name }}
+{{ .Node.Config.name }}
 --chain
-{{ .Environment }}
-{{ if eq .Subtype "validator" }}
+{{ .Node.Environment }}
+{{ if eq .Node.Subtype "validator" }}
 --validator
 --key
-{{ .Config.key }}
+{{ .Node.Config.key }}
 {{ end }}
-{{ if .Config.in_peers }}
+{{ if .Node.Config.in_peers }}
 --in-peers
-{{ .Config.in_peers }}
+{{ .Node.Config.in_peers }}
 {{ end }}
-{{ if .Config.out_peers }}
+{{ if .Node.Config.out_peers }}
 --out-peers
-{{ .Config.out_peers }}
+{{ .Node.Config.out_peers }}
 {{ end }}
 `
 )
