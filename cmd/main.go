@@ -47,6 +47,7 @@ func main() {
 				Protocol:      "tcp",
 			},
 		},
+		CollectLogs: true,
 	}
 
 	polkadotbeatContainer := docker.Container{
@@ -61,6 +62,7 @@ func main() {
 				To:   "/usr/share/polkadotbeat/polkadotbeat.yml",
 			},
 		},
+		CollectLogs: true,
 	}
 
 	plugin.Initialize(plugin.NewDockerPlugin(
