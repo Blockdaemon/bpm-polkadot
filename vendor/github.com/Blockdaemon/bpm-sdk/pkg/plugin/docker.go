@@ -5,9 +5,9 @@ package plugin
 import (
 	"context"
 
-	"time"
-	"strings"
 	"fmt"
+	"strings"
+	"time"
 
 	"github.com/Blockdaemon/bpm-sdk/pkg/docker"
 	"github.com/Blockdaemon/bpm-sdk/pkg/node"
@@ -24,18 +24,44 @@ type DockerPlugin struct {
 	// All containers that should be managed by this plugin
 	containers []docker.Container
 
-	name string
-	version string
+	name        string
+	version     string
 	description string
 }
 
+const (
+	filebeatContainerImage = "docker.elastic.co/beats/filebeat:7.3.1"
+	filebeatContainerName  = "filebeat"
+	filebeatConfigFile     = "filebeat.yml"
+)
+
 func NewDockerPlugin(name, description, version string, containers []docker.Container, configFilesAndTemplates map[string]string) Plugin {
+	// Add filebeat to the passed in containers
+	filebeatContainer := docker.Container{
+		Name:      filebeatContainerName,
+		Image:     filebeatContainerImage,
+		Cmd:       []string{"-e", "-strict.perms=false"},
+		// using the first containers network is a decent default, if we ever do mult-network deployments we may need to rethink this
+		NetworkID: containers[0].NetworkID,
+		Mounts: []docker.Mount{
+			{
+				Type: "bind",
+				From: filebeatConfigFile,
+				To:   "/usr/share/filebeat/filebeat.yml",
+			},
+		},
+		User: "root",
+	}
+
+	containers = append(containers, filebeatContainer)
+	configFilesAndTemplates[filebeatConfigFile] = filebeatConfigTpl
+
 	return DockerPlugin{
 		configFilesAndTemplates: configFilesAndTemplates,
-		containers: containers,
-		name: name,
-		description: description,
-		version: version,
+		containers:              containers,
+		name:                    name,
+		description:             description,
+		version:                 version,
 	}
 }
 
@@ -58,12 +84,12 @@ func (d DockerPlugin) CreateSecrets(currentNode node.Node) error {
 }
 
 // Upgrade does nothing except printing that it does nothing
-func  (d DockerPlugin) Upgrade(currentNode node.Node) error {
+func (d DockerPlugin) Upgrade(currentNode node.Node) error {
 	fmt.Println("Nothing to do here, skipping upgrade")
 	return nil
 }
 
-// CreateConfigs creates configuration files for the blockchain client 
+// CreateConfigs creates configuration files for the blockchain client
 func (d DockerPlugin) CreateConfigs(currentNode node.Node) error {
 	return template.ConfigFilesRendered(d.configFilesAndTemplates, currentNode)
 }
@@ -164,8 +190,8 @@ func (d DockerPlugin) Status(currentNode node.Node) (string, error) {
 		return "stopped", nil
 	} else if len(d.containers) == containersRunning {
 		return "running", nil
-	} 
-		
+	}
+
 	return "incomplete", nil
 }
 
@@ -207,7 +233,7 @@ func (d DockerPlugin) Stop(currentNode node.Node, purge bool) error {
 		}
 
 		// Remove all configuration files
-		for file, _ := range d.configFilesAndTemplates {
+		for file := range d.configFilesAndTemplates {
 			if err := template.ConfigFileAbsent(file, currentNode); err != nil {
 				return err
 			}

@@ -17,10 +17,6 @@ const (
 	polkadotbeatContainerName  = "polkadotbeat"
 	polkadotbeatConfigFile     = "polkadotbeat.yml"
 
-	filebeatContainerImage = "docker.elastic.co/beats/filebeat:7.3.1"
-	filebeatContainerName  = "filebeat"
-	filebeatConfigFile     = "filebeat.yml"
-
 	networkName = "polkadot"
 )
 
@@ -67,30 +63,14 @@ func main() {
 		},
 	}
 
-	filebeatContainer := docker.Container{
-		Name:      filebeatContainerName,
-		Image:     filebeatContainerImage,
-		Cmd:       []string{"-e", "-strict.perms=false"},
-		NetworkID: networkName,
-		Mounts: []docker.Mount{
-			{
-				Type: "bind",
-				From: filebeatConfigFile,
-				To:   "/usr/share/filebeat/filebeat.yml",
-			},
-		},
-		User: "root",
-	}
-
 	plugin.Initialize(plugin.NewDockerPlugin(
 		"polkadot",
 		"A polkadot plugin",
 		version,
-		[]docker.Container{polkadotContainer, polkadotbeatContainer, filebeatContainer},
+		[]docker.Container{polkadotContainer, polkadotbeatContainer},
 		map[string]string{
 			polkadotCmdFile:        polkadotCmdTpl,
 			polkadotbeatConfigFile: polkadotbeatConfigTpl,
-			filebeatConfigFile:     filebeatConfigTpl,
 		},
 	))
 }
