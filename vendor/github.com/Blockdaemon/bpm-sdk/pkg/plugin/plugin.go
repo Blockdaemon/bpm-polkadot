@@ -76,8 +76,8 @@ func Initialize(plugin Plugin) {
 
 	// Initialize root command
 	var rootCmd = &cobra.Command{
-		Use:   plugin.Name(),
-		Short: plugin.Description(),
+		Use:          plugin.Name(),
+		Short:        plugin.Description(),
 		SilenceUsage: true,
 	}
 

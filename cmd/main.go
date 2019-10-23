@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"github.com/Blockdaemon/bpm-sdk/pkg/docker"
-	"github.com/Blockdaemon/bpm-sdk/pkg/plugin"
 	"github.com/Blockdaemon/bpm-sdk/pkg/node"
+	"github.com/Blockdaemon/bpm-sdk/pkg/plugin"
 )
 
 var version string
@@ -24,13 +23,14 @@ const (
 
 // PolkadoDockerPlugin uses DockerPlugin but overwrites functions to add custom test functionality
 type PolkadotDockerPlugin struct {
-	plugin.Plugin	
+	plugin.Plugin
 }
 
-// Test does something
+// Test the node
 func (d PolkadotDockerPlugin) Test(currentNode node.Node) (bool, error) {
-	// TODO, do more ;-)
-	fmt.Println("Running hypothetical tests")
+	if err := runAllTests(); err != nil {
+		return false, err
+	}
 	return true, nil
 }
 

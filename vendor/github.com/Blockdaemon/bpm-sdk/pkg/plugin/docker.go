@@ -38,9 +38,9 @@ const (
 func NewDockerPlugin(name, description, version string, containers []docker.Container, configFilesAndTemplates map[string]string) Plugin {
 	// Add filebeat to the passed in containers
 	filebeatContainer := docker.Container{
-		Name:      filebeatContainerName,
-		Image:     filebeatContainerImage,
-		Cmd:       []string{"-e", "-strict.perms=false"},
+		Name:  filebeatContainerName,
+		Image: filebeatContainerImage,
+		Cmd:   []string{"-e", "-strict.perms=false"},
 		// using the first containers network is a decent default, if we ever do mult-network deployments we may need to rethink this
 		NetworkID: containers[0].NetworkID,
 		Mounts: []docker.Mount{
