@@ -61,8 +61,8 @@ func chainGetBlock() error {
 	method, statusCode, expectedID, data := polkadotPost("chain_getBlock", "")
 
 	errorValue, errorKey := data["error"]
-	result, _ := data["result"]
-	messageIDValue, _ := data["id"]
+	result := data["result"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -93,8 +93,8 @@ func chainGetBlockHash() error {
 	method, statusCode, expectedID, data := polkadotPost("chain_getBlockHash", "")
 
 	errorValue, errorKey := data["error"]
-	result, _ := data["result"]
-	messageIDValue, _ := data["id"]
+	result := data["result"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -124,8 +124,8 @@ func chainGetFinalizedHead() error {
 	method, statusCode, expectedID, data := polkadotPost("chain_getFinalizedHead", "")
 
 	errorValue, errorKey := data["error"]
-	result, _ := data["result"]
-	messageIDValue, _ := data["id"]
+	result := data["result"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -156,8 +156,8 @@ func chainGetHeader() error {
 	method, statusCode, expectedID, data := polkadotPost("chain_getHeader", "")
 
 	errorValue, errorKey := data["error"]
-	result, _ := data["result"]
-	messageIDValue, _ := data["id"]
+	result := data["result"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -187,8 +187,8 @@ func systemChain() error {
 	method, statusCode, expectedID, data := polkadotPost("system_chain", "")
 
 	errorValue, errorKey := data["error"]
-	result, _ := data["result"]
-	messageIDValue, _ := data["id"]
+	result := data["result"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -221,7 +221,7 @@ func systemHealth() error {
 	resultIsSyncing, _ := resultMap["isSyncing"].(bool)
 	resultPeers, _ := resultMap["peers"].(float64)
 	resultShouldHavePeers, _ := resultMap["shouldHavePeers"].(bool)
-	messageIDValue, _ := data["id"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -252,8 +252,8 @@ func systemName() error {
 	method, statusCode, expectedID, data := polkadotPost("system_name", "")
 
 	errorValue, errorKey := data["error"]
-	result, _ := data["result"]
-	messageIDValue, _ := data["id"]
+	result := data["result"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -282,16 +282,10 @@ func systemNetworkState() error {
 	method, statusCode, expectedID, data := polkadotPost("system_networkState", "")
 
 	errorValue, errorKey := data["error"]
-	resultMap, _ := data["result"].(map[string]interface{})
+	resultMap := data["result"].(map[string]interface{})
 	resultAverageDownloadPerSec, _ := resultMap["averageDownloadPerSec"].(float64)
 	resultAverageUploadPerSec, _ := resultMap["averageUploadPerSec"].(float64)
-	//resultConnectedPeers, _ := resultMap["connectedPeers"]
-	//resultExternalAddresses, _ := resultMap["externalAddresses"].([]string)
-	//resultListenedAddresses, _ := resultMap["listenedAddresses"].([]string)
-	//resultNotConnectedPeers, _ := resultMap["notConnectedPeers"].(map[string]interface{})
-	//resultPeerID, _ := resultMap["peerId"]
-	//resultpeerset, _ := resultMap["averageUploadPerSec"]
-	messageIDValue, _ := data["id"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -320,14 +314,8 @@ func systemPeers() error {
 	method, statusCode, expectedID, data := polkadotPost("system_peers", "")
 
 	errorValue, errorKey := data["error"]
-	result, _ := data["result"]
-	//firstPeerMap := result.([]interface{})[0].(map[string]interface{})
-	//bestHash, _ := firstPeerMap["bestHash"]
-	//bestNumber, _ := firstPeerMap["bestNumber"]
-	//peerID, _ := firstPeerMap["peerId"]
-	//protocolVersion, _ := firstPeerMap["protocolVersion"]
-	//roles, _ := firstPeerMap["roles"]
-	messageIDValue, _ := data["id"]
+	result := data["result"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -357,10 +345,10 @@ func systemProperties() error {
 	method, statusCode, expectedID, data := polkadotPost("system_properties", "")
 
 	errorValue, errorKey := data["error"]
-	resultMap, _ := data["result"].(map[string]interface{})
-	resultTokenDecimals, _ := resultMap["tokenDecimals"]
-	resultTokenSymbol, _ := resultMap["tokenSymbol"]
-	messageIDValue, _ := data["id"]
+	resultMap := data["result"].(map[string]interface{})
+	resultTokenDecimals := resultMap["tokenDecimals"]
+	resultTokenSymbol := resultMap["tokenSymbol"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
@@ -398,8 +386,8 @@ func systemVersion() error {
 	method, statusCode, expectedID, data := polkadotPost("system_version", "")
 
 	errorValue, errorKey := data["error"]
-	resultVersion, _ := data["result"]
-	messageIDValue, _ := data["id"]
+	resultVersion := data["result"]
+	messageIDValue := data["id"]
 
 	if statusCode != 200 {
 		logMessage := fmt.Sprintf("FAILED: %s status code: %d", method, statusCode)
