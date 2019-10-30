@@ -36,41 +36,10 @@ func (t *testRunner) test(testFunc func() error) {
 func runAllTests() error {
 	runner := testRunner{}
 
-	// See https://polkadot.js.org/api/substrate/rpc.html
-	// account
-	// account_nextIndex()        Method not found
-	// author
-	// author_insertKey()         Method not found
-	// authorPendingExtrinsics()  Skipping
-	// removeExtrinsic()          Method not found
-	// rotateKeys()               Method not found
-	// submitAndWatchExtrinsic()  Method not found
-	// submitExtrinsic()		  Method not found
-	// chain
 	runner.test(chainGetBlock)
 	runner.test(chainGetBlockHash)
 	runner.test(chainGetFinalizedHead)
 	runner.test(chainGetHeader)
-	// chain_subscribeFinalizedHeads() Subscriptions are not available on this transport
-	// chain_subscribeNewHeads()       Method not found
-	// contracts
-	// contracts_call() Method not found
-	// state
-	// stateCall()                   Skipping
-	// state_getChildKeys()          Method not found
-	// state_getChildStorage()       Method not found
-	// state_getChildStorageHash()   Method not found
-	// state_getChildStorageSize()   Method not found
-	// stateGetKeys()                Skipping
-	// stateGetMetadata() 			 Skipping
-	// stateGetRuntimeVersion()		 Skipping
-	// stateGetStorage()			 Skipping
-	// stateGetStorageHash()		 Skipping
-	// stateGetStorageSize()		 Skipping
-	// stateQueryStorage()			 Skipping
-	// state_subscribeRuntimeVersion Subscriptions are not available on this transport
-	// state_subscribeStorage        Subscriptions are not available on this transport
-	// system
 	runner.test(systemChain)
 	runner.test(systemHealth)
 	runner.test(systemName)
