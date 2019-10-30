@@ -9,13 +9,12 @@ fields:
     info:
         launch_type: bpm
         node_xid: {{ .Node.ID }}
-        project: development
-        protocol_type: POLKADOT
-        network_type: public
-        user_id: TODO
+        protocol_type: {{ .Node.Subtype }}
+        network_type: {{ .Node.NetworkType }}
         environment: {{ .Node.Environment }}
 fields_under_root: true
 output:
+{{- if .Node.Collection.Host }}
     logstash:
         hosts:
         - "{{ .Node.Collection.Host }}"
@@ -24,6 +23,10 @@ output:
             certificate_authorities:
             - /etc/ssl/beats/ca.crt
             key: /etc/ssl/beats/beat.key
+{{- else }}
+    console:
+        pretty: true
+{{- end }}
 `
 
 	polkadotCmdTpl = `polkadot
@@ -31,13 +34,12 @@ output:
 /data
 --rpc-external
 --name
-{{ .Node.Config.name }}
+{{ .Node.ID }}
 --chain
 {{ .Node.Environment }}
 {{ if eq .Node.Subtype "validator" }}
 --validator
---key
-{{ .Node.Config.key }}
+--key {% ADD NODE KEY HERE %}
 {{ end }}
 {{ if .Node.Config.in_peers }}
 --in-peers
