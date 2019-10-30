@@ -82,7 +82,7 @@ func main() {
 	parameters := plugin.Parameters{
 		Network:     []string{"alexander"},
 		Protocol:    []string{"polkadot"},
-		Subtype:     []string{"validator", "watcher"},
+		Subtype:     []string{"watcher", "validator"},
 		NetworkType: []string{"public"},
 	}
 
