@@ -79,6 +79,13 @@ func main() {
 		CollectLogs: true,
 	}
 
+	parameters := plugin.Parameters{
+		Network:     []string{"alexander"},
+		Protocol:    []string{"polkadot"},
+		Subtype:     []string{"validator", "watcher"},
+		NetworkType: []string{"public"},
+	}
+
 	// first, create the docker plugin
 	dockerPlugin := plugin.NewDockerPlugin(
 		"polkadot",
@@ -89,6 +96,7 @@ func main() {
 			polkadotCmdFile:        polkadotCmdTpl,
 			polkadotbeatConfigFile: polkadotbeatConfigTpl,
 		},
+		parameters,
 	)
 	// next, our variation of the docker plugin
 	polkadotDockerPlugin := PolkadotDockerPlugin{
