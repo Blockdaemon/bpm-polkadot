@@ -41,13 +41,5 @@ output:
 --validator
 --key {% ADD NODE KEY HERE %}
 {{ end }}
-{{ if .Node.Config.in_peers }}
---in-peers
-{{ .Node.Config.in_peers }}
-{{ end }}
-{{ if .Node.Config.out_peers }}
---out-peers
-{{ .Node.Config.out_peers }}
-{{ end }}
 `
 )
