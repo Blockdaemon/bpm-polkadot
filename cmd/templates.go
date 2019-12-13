@@ -6,12 +6,10 @@ const (
     polkadot_host: "{{ .Node.NamePrefix }}polkadot"
     polkadot_port: "9933"
 fields:
-    info:
+    node:
         launch_type: bpm
-        node_xid: {{ .Node.ID }}
-        protocol_type: {{ .Node.Protocol }}
-        network_type: {{ .Node.NetworkType }}
-        environment: {{ .Node.Network }}
+        xid: {{ .Node.ID }}
+        plugin: {{ .Node.PluginName }}
 fields_under_root: true
 output:
 {{- if .Node.Collection.Host }}
@@ -36,10 +34,10 @@ output:
 --name
 {{ .Node.ID }}
 --chain
-{{ .Node.Network }}
-{{ if eq .Node.Subtype "validator" }}
+alexander
+{{ if eq .Node.StrParameters.subtype "validator" }}
 --validator
---key {% ADD NODE KEY HERE %}
+--key {{ index .Node.StrParameters "validator-key" }}
 {{ end }}
 `
 )

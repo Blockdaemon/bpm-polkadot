@@ -79,24 +79,39 @@ func main() {
 		CollectLogs: true,
 	}
 
-	parameters := plugin.Parameters{
-		Network:     []string{"alexander"},
-		Protocol:    []string{"polkadot"},
-		Subtype:     []string{"watcher", "validator"},
-		NetworkType: []string{"public"},
+	meta := plugin.MetaInfo{
+		Version: version,
+		Description: "A polkadot plugin",
+		ProtocolVersion: "1.0.0",
+		Parameters: []plugin.Parameter{
+			{
+				Name:        "subtype",
+				Type:        plugin.ParameterTypeString,
+				Description: "The type of node. Must be either `watcher` or `validator`",
+				Mandatory:   false,
+				Default:     "watcher",
+			},
+			{
+				Name:        "validator-key",
+				Type:        plugin.ParameterTypeString,
+				Description: "The key used for a validator (required if subtype = validator)",
+				Mandatory:   false,
+			},
+		},
+		Supported: []string{
+			plugin.SupportsTest,
+		},
 	}
 
 	// first, create the docker plugin
 	dockerPlugin := plugin.NewDockerPlugin(
 		"polkadot",
-		"A polkadot plugin",
-		version,
 		[]docker.Container{polkadotContainer, polkadotbeatContainer},
 		map[string]string{
 			polkadotCmdFile:        polkadotCmdTpl,
 			polkadotbeatConfigFile: polkadotbeatConfigTpl,
 		},
-		parameters,
+		meta,
 	)
 	// next, our variation of the docker plugin
 	polkadotDockerPlugin := PolkadotDockerPlugin{
