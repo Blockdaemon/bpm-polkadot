@@ -1,15 +1,14 @@
-package main
+package plugin
 
 const (
-	polkadotbeatConfigTpl = `polkadotbeat:
-    period: 30s
-    polkadot_host: "{{ .Node.NamePrefix }}polkadot"
-    polkadot_port: "9933"
+	filebeatConfigTpl = `filebeat.inputs:
+- type: container
+  paths: 
+  - '/var/lib/docker/containers/*/*.log'
 fields:
     node:
         launch_type: bpm
         xid: {{ .Node.ID }}
-        plugin: {{ .Node.PluginName }}
 fields_under_root: true
 output:
 {{- if .Node.Collection.Host }}
@@ -25,19 +24,5 @@ output:
     console:
         pretty: true
 {{- end }}
-`
-
-	polkadotCmdTpl = `polkadot
---base-path
-/data
---rpc-external
---name
-{{ .Node.ID }}
---chain
-alexander
-{{ if eq .Node.StrParameters.subtype "validator" }}
---validator
---key {{ index .Node.StrParameters "validator-key" }}
-{{ end }}
 `
 )
