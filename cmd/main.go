@@ -21,13 +21,9 @@ const (
 	networkName = "polkadot"
 )
 
-// PolkadoDockerPlugin uses DockerPlugin but overwrites functions to add custom test functionality
-type PolkadotDockerPlugin struct {
-	plugin.Plugin
-}
+type PolkadotTester struct{}
 
-// Test the node
-func (d PolkadotDockerPlugin) Test(currentNode node.Node) (bool, error) {
+func (d PolkadotTester) Test(currentNode node.Node) (bool, error) {
 	if err := runAllTests(); err != nil {
 		return false, err
 	}
@@ -79,9 +75,14 @@ func main() {
 		CollectLogs: true,
 	}
 
+	containers := []docker.Container{
+		polkadotContainer,
+		polkadotbeatContainer,
+	}
+
 	meta := plugin.MetaInfo{
-		Version: version,
-		Description: "A polkadot plugin",
+		Version:         version,
+		Description:     "A polkadot plugin",
 		ProtocolVersion: "1.0.0",
 		Parameters: []plugin.Parameter{
 			{
@@ -103,20 +104,27 @@ func main() {
 		},
 	}
 
-	// first, create the docker plugin
-	dockerPlugin := plugin.NewDockerPlugin(
-		"polkadot",
-		[]docker.Container{polkadotContainer, polkadotbeatContainer},
-		map[string]string{
-			polkadotCmdFile:        polkadotCmdTpl,
-			polkadotbeatConfigFile: polkadotbeatConfigTpl,
-		},
-		meta,
+	fileConfigurator := plugin.NewFileConfigurator(map[string]string{
+		polkadotCmdFile:        polkadotCmdTpl,
+		polkadotbeatConfigFile: polkadotbeatConfigTpl,
+	},
+		meta.Parameters,
 	)
-	// next, our variation of the docker plugin
-	polkadotDockerPlugin := PolkadotDockerPlugin{
-		Plugin: dockerPlugin,
-	}
 
-	plugin.Initialize(polkadotDockerPlugin)
+	lifeCycleHandler := plugin.NewDockerLifecycleHandler(containers)
+
+	upgrader := plugin.NewDockerUpgrader(containers)
+
+	tester := PolkadotTester{}
+
+	polkadotPlugin := plugin.NewPlugin(
+		"polkadot",
+		meta,
+		fileConfigurator,
+		lifeCycleHandler,
+		upgrader,
+		tester,
+	)
+
+	plugin.Initialize(polkadotPlugin)
 }
