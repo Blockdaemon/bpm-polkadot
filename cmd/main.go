@@ -14,20 +14,14 @@ const (
 	polkadotDataVolumeName = "polkadot-data"
 	polkadotCmdFile        = "polkadot.dockercmd"
 
-	polkadotbeatContainerImage = "docker.io/blockdaemon/polkadotbeat:1.0.0"
-	polkadotbeatContainerName  = "polkadotbeat"
-	polkadotbeatConfigFile     = "polkadotbeat.yml"
-
-	networkName = "polkadot"
+	collectorContainerName = "collector"
+	collectorImage         = "docker.io/blockdaemon/polkadot-collector:0.5.0"
+	collectorEnvFile       = "configs/collector.env"
 )
 
-// PolkadoDockerPlugin uses DockerPlugin but overwrites functions to add custom test functionality
-type PolkadotDockerPlugin struct {
-	plugin.Plugin
-}
+type PolkadotTester struct{}
 
-// Test the node
-func (d PolkadotDockerPlugin) Test(currentNode node.Node) (bool, error) {
+func (d PolkadotTester) Test(currentNode node.Node) (bool, error) {
 	if err := runAllTests(); err != nil {
 		return false, err
 	}
@@ -35,88 +29,74 @@ func (d PolkadotDockerPlugin) Test(currentNode node.Node) (bool, error) {
 }
 
 func main() {
-	polkadotContainer := docker.Container{
-		Name:      polkadotContainerName,
-		Image:     polkadotContainerImage,
-		CmdFile:   polkadotCmdFile,
-		NetworkID: networkName,
-		Mounts: []docker.Mount{
-			{
-				Type: "volume",
-				From: polkadotDataVolumeName,
-				To:   "/data",
-			},
-		},
-		Ports: []docker.Port{
-			{
-				HostIP:        "0.0.0.0",
-				HostPort:      "30333",
-				ContainerPort: "30333",
-				Protocol:      "tcp",
-			},
-			{
-				HostIP:        "127.0.0.1",
-				HostPort:      "9933",
-				ContainerPort: "9933",
-				Protocol:      "tcp",
-			},
-		},
-		CollectLogs: true,
+	templates := map[string]string{
+		polkadotCmdFile:  polkadotCmdTpl,
+		collectorEnvFile: collectorEnvTpl,
 	}
 
-	polkadotbeatContainer := docker.Container{
-		Name:      polkadotbeatContainerName,
-		Image:     polkadotbeatContainerImage,
-		Cmd:       []string{"-e", "-strict.perms=false"},
-		NetworkID: networkName,
-		Mounts: []docker.Mount{
-			{
-				Type: "bind",
-				From: polkadotbeatConfigFile,
-				To:   "/usr/share/polkadotbeat/polkadotbeat.yml",
-			},
+	parameters := []plugin.Parameter{
+		{
+			Name:        "subtype",
+			Type:        plugin.ParameterTypeString,
+			Description: "The type of node. Must be either `watcher` or `validator`",
+			Mandatory:   false,
+			Default:     "watcher",
 		},
-		CollectLogs: true,
-	}
-
-	meta := plugin.MetaInfo{
-		Version: version,
-		Description: "A polkadot plugin",
-		ProtocolVersion: "1.0.0",
-		Parameters: []plugin.Parameter{
-			{
-				Name:        "subtype",
-				Type:        plugin.ParameterTypeString,
-				Description: "The type of node. Must be either `watcher` or `validator`",
-				Mandatory:   false,
-				Default:     "watcher",
-			},
-			{
-				Name:        "validator-key",
-				Type:        plugin.ParameterTypeString,
-				Description: "The key used for a validator (required if subtype = validator)",
-				Mandatory:   false,
-			},
-		},
-		Supported: []string{
-			plugin.SupportsTest,
+		{
+			Name:        "validator-key",
+			Type:        plugin.ParameterTypeString,
+			Description: "The key used for a validator (required if subtype = validator)",
+			Mandatory:   false,
 		},
 	}
 
-	// first, create the docker plugin
-	dockerPlugin := plugin.NewDockerPlugin(
-		"polkadot",
-		[]docker.Container{polkadotContainer, polkadotbeatContainer},
-		map[string]string{
-			polkadotCmdFile:        polkadotCmdTpl,
-			polkadotbeatConfigFile: polkadotbeatConfigTpl,
+	containers := []docker.Container{
+		{
+			Name:    polkadotContainerName,
+			Image:   polkadotContainerImage,
+			CmdFile: polkadotCmdFile,
+			Mounts: []docker.Mount{
+				{
+					Type: "volume",
+					From: polkadotDataVolumeName,
+					To:   "/data",
+				},
+			},
+			Ports: []docker.Port{
+				{
+					HostIP:        "0.0.0.0",
+					HostPort:      "30333",
+					ContainerPort: "30333",
+					Protocol:      "tcp",
+				},
+				{
+					HostIP:        "127.0.0.1",
+					HostPort:      "9933",
+					ContainerPort: "9933",
+					Protocol:      "tcp",
+				},
+			},
+			CollectLogs: true,
 		},
-		meta,
-	)
-	// next, our variation of the docker plugin
-	polkadotDockerPlugin := PolkadotDockerPlugin{
-		Plugin: dockerPlugin,
+		docker.Container{
+			Name:        collectorContainerName,
+			Image:       collectorImage,
+			EnvFilename: collectorEnvFile,
+			Mounts: []docker.Mount{
+				{
+					Type: "bind",
+					From: "logs",
+					To:   "/data/nodestate",
+				},
+			},
+			CollectLogs: true,
+		},
 	}
 
-	plugin.Initialize(polkadotDockerPlugin)
+	description := "A polkadot package"
+
+	polkadotPlugin := plugin.NewDockerPlugin("polkadot", version, description, parameters, templates, containers)
+	polkadotPlugin.Tester = PolkadotTester{}
+
+	plugin.Initialize(polkadotPlugin)
 }
