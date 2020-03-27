@@ -78,7 +78,7 @@ func main() {
 			},
 			CollectLogs: true,
 		},
-		docker.Container{
+		{
 			Name:        collectorContainerName,
 			Image:       collectorImage,
 			EnvFilename: collectorEnvFile,

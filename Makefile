@@ -25,4 +25,5 @@ test:
 .PHONY: lint
 lint:
 	go mod download
-	golangci-lint run ./...
+	golangci-lint run --enable gofmt ./...
+
