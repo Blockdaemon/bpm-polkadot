@@ -1,8 +1,8 @@
-module github.com/Blockdaemon/bpm-polkadot
+module go.blockdaemon.com/bpm/polkadot
 
-go 1.12
+go 1.13
 
 require (
-	github.com/Blockdaemon/bpm-sdk v0.10.0
+	go.blockdaemon.com/bpm/sdk v0.14.0
 	github.com/Microsoft/go-winio v0.4.14 // indirect
 )

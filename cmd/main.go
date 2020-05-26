@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/Blockdaemon/bpm-sdk/pkg/docker"
-	"github.com/Blockdaemon/bpm-sdk/pkg/node"
-	"github.com/Blockdaemon/bpm-sdk/pkg/plugin"
+	"go.blockdaemon.com/bpm/sdk/pkg/docker"
+	"go.blockdaemon.com/bpm/sdk/pkg/node"
+	"go.blockdaemon.com/bpm/sdk/pkg/plugin"
 )
 
 var version string
