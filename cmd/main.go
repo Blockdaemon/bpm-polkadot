@@ -11,7 +11,6 @@ var version string
 const (
 	polkadotContainerImage = "docker.io/chevdor/polkadot:0.4.4"
 	polkadotContainerName  = "polkadot"
-	polkadotDataVolumeName = "polkadot-data"
 	polkadotCmdFile        = "polkadot.dockercmd"
 
 	collectorContainerName = "collector"
