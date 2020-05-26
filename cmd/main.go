@@ -57,8 +57,8 @@ func main() {
 			CmdFile: polkadotCmdFile,
 			Mounts: []docker.Mount{
 				{
-					Type: "volume",
-					From: polkadotDataVolumeName,
+					Type: "bind",
+					From: "{{ index .Node.StrParameters \"data-dir\" }}",
 					To:   "/data",
 				},
 			},
