@@ -96,6 +96,7 @@ func main() {
 	description := "A polkadot package"
 
 	polkadotPlugin := plugin.NewDockerPlugin("polkadot", version, description, parameters, templates, containers)
+	polkadotPlugin.ParameterValidator = NewpolkadotParameterValidator(parameters)
 	polkadotPlugin.Tester = PolkadotTester{}
 
 	plugin.Initialize(polkadotPlugin)

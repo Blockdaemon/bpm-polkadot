@@ -19,13 +19,8 @@ func (t polkadotParameterValidator) ValidateParameters(currentNode node.Node) er
 		return err
 	}
 
-	network := currentNode.StrParameters["network"]
-	if network != "mainnet" && network != "testnet" {
-		return fmt.Errorf("unknown network: %q", network)
-	}
-
 	subtype := currentNode.StrParameters["subtype"]
-	if subtype != "watcher" && network != "validator" {
+	if subtype != "watcher" && subtype != "validator" {
 		return fmt.Errorf("unknown subtype: %q", subtype)
 	}
 
